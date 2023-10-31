@@ -12,7 +12,7 @@ class mySqlClient:
         self.sqlClient = sqlClient
         self.cursor = sqlClient.cursor()
 
-    def insertEmployee(self, name: str, dateOfBirth: str, joiningDate: str, salary):
+    def insertEmployee(self, name: str, dateOfBirth: str, joiningDate: str, salary: float):
         '''
         name: Example Name
         dateOfBirth: yyyy-mm-dd
