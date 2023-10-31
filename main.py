@@ -1,4 +1,11 @@
 import tkinter as tk
+from sqlClient import mySqlClient
+import json
+
+file = open('config.json', 'r')
+configData = json.load(file)
+
+sqlClient = mySqlClient(username=configData['user'], password=configData['pass'], host=configData['host'], database=configData['database'])
 
 window = tk.Tk()
 
