@@ -1,27 +1,15 @@
-import mysql.connector
-import json
+import tkinter as tk
 
-file = open('config.json', 'r')
-configData = json.load(file)
+window = tk.Tk()
 
-sqlClient = mysql.connector.connect(  
-    host=configData['host'],
-    user=configData['user'],
-    password=configData['pass'],
-    database=configData['database']
-)
+screen_width = window.winfo_screenwidth()
+screen_height = window.winfo_screenheight()
 
-cursor = sqlClient.cursor()
+window_width = int(screen_width * 0.5)
+window_height = int(screen_height * 0.5)
 
-def insertEmployee(name: str, dateOfBirth: str, joiningDate: str, salary, leavingData: str = None):
-    '''
-    name: Example Name
-    dateOfBirth: yyyy-mm-dd
-    joiningDate: yyyy-mm-dd
-    salary: 50000.00
-    '''
-    insertQuery = "INSERT INTO employeedetails (name, dateOfBirth, joiningDate, leavingDate, salary) VALUES (%s, %s, %s, %s, %s)"
-    cursor.execute(insertQuery, (name, dateOfBirth, joiningDate, leavingData, salary))
-    sqlClient.commit()
+window.geometry(f"{window_width}x{window_height}")
 
-insertEmployee("Onkar", "2004-02-27", "2023-11-01", 400.05)
+window.title("Employee Management System")
+
+window.mainloop()
