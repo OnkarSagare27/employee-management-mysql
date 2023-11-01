@@ -393,6 +393,7 @@ def allEmployeeScreen():
         tree.grid(row= 4, column=0, padx=20, pady=10)
         deleteButton = Button(allEmployeeFrame, text="Back", command=homeScreen)
         deleteButton.grid(row= 5, column=0, padx=20, pady=10)
+        frame.place(relx=0.5, rely=0.5, anchor=CENTER)
         
 homeScreen()
 
