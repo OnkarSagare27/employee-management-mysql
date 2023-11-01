@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox 
+from tkinter import ttk
 from sqlClient import mySqlClient
 import json
 
@@ -118,6 +119,51 @@ def deleteScreen():
     menu.grid(row=0, column=0,padx=10, pady=10)
 
     def nextDelete():
+
+        def find():
+            def delete():
+                selectedEmployee = tree.selection()
+                if len(selectedEmployee) == 0:
+                    messagebox.showwarning(title="Error", message="Select an employee first.")
+                else:
+                    for item in selectedEmployee:
+                        itemValue = tree.item(item, 'values')
+                        ind = 0
+                        if usingOptValue == 'Id':
+                            ind = 0
+                        elif usingOptValue== 'Name':
+                            ind = 1
+                        elif usingOptValue == 'Birth Date':
+                            ind = 2
+                        elif usingOptValue == 'Joining Date':
+                            ind = 3
+                        else:
+                            ind = 4
+                        sqlClient.deleteEmployee(method=usingOptValue, value=itemValue[ind])
+                        deleteScreen()
+                        messagebox.showwarning(title="Success", message="Deleted employee details.")
+            employees = sqlClient.findEmployee(method=usingOptValue, value=valueEntry.get())
+            if len(employees) == 0:
+                messagebox.showwarning(title="Error", message="No match found.")
+            else:
+                tree = ttk.Treeview(nextDeleteFrame, columns=("ID", "Name", "Date of Birth", "Joining Date", "Salary"))
+                tree.heading("#0", text="", anchor="center") 
+                tree.heading("ID", text="ID", anchor="center")
+                tree.heading("Name", text="Name", anchor="center")
+                tree.heading("Date of Birth", text="Date of Birth", anchor="center")
+                tree.heading("Joining Date", text="Joining Date", anchor="center")
+                tree.heading("Salary", text="Salary", anchor="center")
+                tree.column("#0", width=0,anchor="center")
+                tree.column("ID", width=50, anchor="center")
+                tree.column("Name", width=200, anchor="center")
+                tree.column("Date of Birth", width=100, anchor="center")
+                tree.column("Joining Date", width=100, anchor="center")
+                tree.column("Salary", width=100, anchor="center")
+                for row in employees:
+                    tree.insert("", "end", values=row)
+                tree.grid(row= 4, column=0, padx=20, pady=10)
+                deleteButton = Button(nextDeleteFrame, text="DELETE", command=delete)
+                deleteButton.grid(row= 5, column=0, padx=20, pady=10)
         usingOptValue = usingOpt.get()
         if usingOptValue == 'Find Employee Using':
             messagebox.showwarning(title="Error", message="Select an option first.")
@@ -132,9 +178,9 @@ def deleteScreen():
 
             valueLable = Label(nextDeleteFrame, text=f"Enter {usingOptValue}")
             valueLable.grid(row=0, column=0)
-            valueEntry = Entry(nextDeleteFrame, width=40)
+            valueEntry = Entry(nextDeleteFrame, width=100)
             valueEntry.grid(row=1, column=0,padx=10, pady=10)
-            button = Button(nextDeleteFrame, text="Find", command=nextDelete)
+            button = Button(nextDeleteFrame, text="Find", command=find)
             button.grid(row=2, column=0,sticky="news",padx=10, pady=10)
             button = Button(nextDeleteFrame ,text="Back", command=deleteScreen)
             button.grid(row=3, column=0,sticky="news",padx=10, pady=10)
