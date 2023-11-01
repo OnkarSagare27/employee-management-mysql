@@ -34,7 +34,7 @@ def homeScreen():
     addButton.pack(padx=10, pady=10)
     addButton = Button(opetionsFrame, text='Update An Employee',height=2, width=15, padx=20, pady=20, font='lucida 10 normal', command=updateScreen)
     addButton.pack(padx=10, pady=10)
-    addButton = Button(opetionsFrame,text='View All Employees',height=2, width=15, padx=20, pady=20, font='lucida 10 normal')
+    addButton = Button(opetionsFrame,text='View All Employees',height=2, width=15, padx=20, pady=20, font='lucida 10 normal', command=allEmployeeScreen)
     addButton.pack(padx=10, pady=10)
     frame.place(relx=0.5, rely=0.5, anchor=CENTER)
 
@@ -339,9 +339,36 @@ def updateScreen():
     frame.place(relx=0.5, rely=0.5, anchor=CENTER)
 
 def allEmployeeScreen():
-    for widget in window.winfo_children():
-        widget.destroy()
+    employees  = sqlClient.getAllEmployees()
+    if len(employees) == 0:
+        messagebox.showwarning(title="Error", message="No employees in detabase")
+    else:
+        for widget in window.winfo_children():
+            widget.destroy()
+        frame = Frame(window)
+        frame.pack()
 
+        allEmployeeFrame =LabelFrame(frame, text="Employees")
+        allEmployeeFrame.grid(row= 0, column=0, padx=20, pady=10)
+        tree = ttk.Treeview(allEmployeeFrame, columns=("ID", "Name", "Date of Birth", "Joining Date", "Salary"))
+        tree.heading("#0", text="", anchor="center") 
+        tree.heading("ID", text="ID", anchor="center")
+        tree.heading("Name", text="Name", anchor="center")
+        tree.heading("Date of Birth", text="Date of Birth", anchor="center")
+        tree.heading("Joining Date", text="Joining Date", anchor="center")
+        tree.heading("Salary", text="Salary", anchor="center")
+        tree.column("#0", width=0,anchor="center")
+        tree.column("ID", width=50, anchor="center")
+        tree.column("Name", width=200, anchor="center")
+        tree.column("Date of Birth", width=100, anchor="center")
+        tree.column("Joining Date", width=100, anchor="center")
+        tree.column("Salary", width=100, anchor="center")
+        for row in employees:
+            tree.insert("", "end", values=row)
+        tree.grid(row= 4, column=0, padx=20, pady=10)
+        deleteButton = Button(allEmployeeFrame, text="Back", command=homeScreen)
+        deleteButton.grid(row= 5, column=0, padx=20, pady=10)
+        
 homeScreen()
 
 window.mainloop()
