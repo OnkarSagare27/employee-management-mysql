@@ -341,7 +341,7 @@ def updateScreen():
 def allEmployeeScreen():
     employees  = sqlClient.getAllEmployees()
     if len(employees) == 0:
-        messagebox.showwarning(title="Error", message="No employees in detabase")
+        messagebox.showwarning(title="Error", message="No employees in the detabase.")
     else:
         for widget in window.winfo_children():
             widget.destroy()
