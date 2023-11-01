@@ -21,6 +21,7 @@ class mySqlClient:
         '''
         insertQuery = "INSERT INTO employeedetails (name, dateOfBirth, joiningDate, salary) VALUES (%s, %s, %s, %s)"
         self.cursor.execute(insertQuery, (name, dateOfBirth, joiningDate, salary))
+
         self.sqlClient.commit()
 
     def findEmployee(self, method: str, value: str):
@@ -71,4 +72,37 @@ class mySqlClient:
             self.cursor.execute(joiningDateQuery, (value,))
         else:
             self.cursor.execute(salaryQuery, (value,))
+
         self.sqlClient.commit()
+
+    def updateEmployee(self, method: str, value: str, newValue: str):
+        '''
+        method: Id/Name/Birth Date/Joining Date/Salary
+        value: Value to find the employee
+        newValue: New value to update
+        '''
+        idQuery = "UPDATE employeedetails SET name = %s, dateOfBirth = %s, joiningDate = %s, salary = %s WHERE id = %s"
+        nameQuery = "UPDATE employeedetails SET name = %s, dateOfBirth = %s, joiningDate = %s, salary = %s WHERE name LIKE %s"
+        joiningDateQuery = "UPDATE employeedetails SET name = %s, dateOfBirth = %s, joiningDate = %s, salary = %s WHERE joiningDate = %s"
+        birthDateQuery = "UPDATE employeedetails SET name = %s, dateOfBirth = %s, joiningDate = %s, salary = %s WHERE dateOfBirth = %s"
+        salaryQuery = "UPDATE employeedetails SET name = %s, dateOfBirth = %s, joiningDate = %s, salary = %s WHERE salary = %s"
+
+        if method == 'Id':
+            self.cursor.execute(idQuery, (newValue[1], newValue[2], newValue[3],newValue[4], value[0]))
+        elif method == 'Name':
+            self.cursor.execute(nameQuery, (newValue[1], newValue[2], newValue[3],newValue[4], value[1]))
+        elif method == 'Birth Date':
+            self.cursor.execute( birthDateQuery, (newValue[1], newValue[2], newValue[3],newValue[4], value[2]))
+        elif method == 'Joining Date':
+            self.cursor.execute(joiningDateQuery, (newValue[1], newValue[2], newValue[3],newValue[4], value[3]))
+        else:
+            self.cursor.execute(salaryQuery, (newValue[1], newValue[2], newValue[3],newValue[4], value[4]))
+
+        self.sqlClient.commit()
+
+    def getAllEmployees(self):
+
+        query = "SELECT * FROM employeedetails"
+
+        self.cursor.execute(query)
+        return self.cursor.fetchall()
