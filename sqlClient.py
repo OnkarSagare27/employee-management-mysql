@@ -12,15 +12,15 @@ class mySqlClient:
         self.sqlClient = sqlClient
         self.cursor = sqlClient.cursor()
 
-    def insertEmployee(self, name: str, dateOfBirth: str, joiningDate: str, salary: float):
+    def insertEmployee(self, name: str, dateOfBirth: str, joiningDate: str, department: str, salary: float):
         '''
         name: Example Name
         dateOfBirth: yyyy-mm-dd
         joiningDate: yyyy-mm-dd
         salary: 50000.00
         '''
-        insertQuery = "INSERT INTO employeedetails (name, dateOfBirth, joiningDate, salary) VALUES (%s, %s, %s, %s)"
-        self.cursor.execute(insertQuery, (name, dateOfBirth, joiningDate, salary))
+        insertQuery = "INSERT INTO employeedetails (name, dateOfBirth, joiningDate, salary, department) VALUES (%s, %s, %s, %s, %s)"
+        self.cursor.execute(insertQuery, (name, dateOfBirth, joiningDate, salary, department))
 
         self.sqlClient.commit()
 
@@ -81,22 +81,22 @@ class mySqlClient:
         value: Value to find the employee
         newValue: New value to update
         '''
-        idQuery = "UPDATE employeedetails SET name = %s, dateOfBirth = %s, joiningDate = %s, salary = %s WHERE id = %s"
-        nameQuery = "UPDATE employeedetails SET name = %s, dateOfBirth = %s, joiningDate = %s, salary = %s WHERE name LIKE %s"
-        joiningDateQuery = "UPDATE employeedetails SET name = %s, dateOfBirth = %s, joiningDate = %s, salary = %s WHERE joiningDate = %s"
-        birthDateQuery = "UPDATE employeedetails SET name = %s, dateOfBirth = %s, joiningDate = %s, salary = %s WHERE dateOfBirth = %s"
-        salaryQuery = "UPDATE employeedetails SET name = %s, dateOfBirth = %s, joiningDate = %s, salary = %s WHERE salary = %s"
+        idQuery = "UPDATE employeedetails SET name = %s, dateOfBirth = %s, joiningDate = %s, salary = %s, department = %s WHERE id = %s"
+        nameQuery = "UPDATE employeedetails SET name = %s, dateOfBirth = %s, joiningDate = %s, salary = %s, department = %s WHERE name LIKE %s"
+        joiningDateQuery = "UPDATE employeedetails SET name = %s, dateOfBirth = %s, joiningDate = %s, salary = %s, department = %s WHERE joiningDate = %s"
+        birthDateQuery = "UPDATE employeedetails SET name = %s, dateOfBirth = %s, joiningDate = %s, salary = %s, department = %s WHERE dateOfBirth = %s"
+        salaryQuery = "UPDATE employeedetails SET name = %s, dateOfBirth = %s, joiningDate = %s, salary = %s, department = %s WHERE salary = %s"
 
         if method == 'Id':
-            self.cursor.execute(idQuery, (newValue[1], newValue[2], newValue[3],newValue[4], value[0]))
+            self.cursor.execute(idQuery, (newValue[1], newValue[2], newValue[3],newValue[4],newValue[5], value[0]))
         elif method == 'Name':
-            self.cursor.execute(nameQuery, (newValue[1], newValue[2], newValue[3],newValue[4], value[1]))
+            self.cursor.execute(nameQuery, (newValue[1], newValue[2], newValue[3],newValue[4],newValue[5], value[1]))
         elif method == 'Birth Date':
-            self.cursor.execute( birthDateQuery, (newValue[1], newValue[2], newValue[3],newValue[4], value[2]))
+            self.cursor.execute( birthDateQuery, (newValue[1], newValue[2], newValue[3],newValue[4],newValue[5], value[2]))
         elif method == 'Joining Date':
-            self.cursor.execute(joiningDateQuery, (newValue[1], newValue[2], newValue[3],newValue[4], value[3]))
+            self.cursor.execute(joiningDateQuery, (newValue[1], newValue[2], newValue[3],newValue[4],newValue[5], value[3]))
         else:
-            self.cursor.execute(salaryQuery, (newValue[1], newValue[2], newValue[3],newValue[4], value[4]))
+            self.cursor.execute(salaryQuery, (newValue[1], newValue[2], newValue[3],newValue[4], newValue[5],value[4]))
 
         self.sqlClient.commit()
 

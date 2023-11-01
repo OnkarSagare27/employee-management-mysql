@@ -47,14 +47,16 @@ def addScreen():
         birthDate = birthDateEntry.get()
         joiningDate = joiningDateEntry.get()
         salary = salaryEntry.get()
-        if firstname and lastname and birthDate and salary and joiningDate:
-            sqlClient.insertEmployee(name=f'{firstname.capitalize()} {lastname.capitalize()}', dateOfBirth=birthDate, joiningDate=joiningDate, salary=salary)
+        department = departmentEntry.get()
+        if firstname and lastname and birthDate and salary and joiningDate and department:
+            sqlClient.insertEmployee(name=f'{firstname.capitalize()} {lastname.capitalize()}', dateOfBirth=birthDate, joiningDate=joiningDate, salary=salary, department=department)
             messagebox.showwarning(title="Success", message="A new employee details added into the databse.")
             firstNameEntry.delete(0,END)
             lastNameEntry.delete(0,END)
             birthDateEntry.delete(0,END)
             joiningDateEntry.delete(0,END)
             salaryEntry.delete(0,END)
+            departmentEntry.delete(0,END)
         else: 
             messagebox.showwarning(title="Error", message="All fields are required.")
 
@@ -74,17 +76,23 @@ def addScreen():
     joiningDateLabel.grid(row=2, column=0)
     salaryLabel = Label(employeeDetailsFrame, text="Salary")
     salaryLabel.grid(row=2, column=1)
+    departmentLabel = Label(employeeDetailsFrame, text="Department")
+    departmentLabel.grid(row=2, column=2)
 
     firstNameEntry = Entry(employeeDetailsFrame)
     lastNameEntry = Entry(employeeDetailsFrame)
     birthDateEntry = Entry(employeeDetailsFrame)
     joiningDateEntry = Entry(employeeDetailsFrame)
     salaryEntry = Entry(employeeDetailsFrame)
+    departmentEntry = Entry(employeeDetailsFrame)
     firstNameEntry.grid(row=1, column=0)
     lastNameEntry.grid(row=1, column=1)
     birthDateEntry.grid(row=1, column=2)
     joiningDateEntry.grid(row=3, column=0)
     salaryEntry.grid(row=3, column=1)
+    departmentEntry.grid(row=3, column=2)
+
+
 
     for widget in employeeDetailsFrame.winfo_children():
         widget.grid_configure(padx=10, pady=5)
@@ -144,19 +152,22 @@ def deleteScreen():
             if len(employees) == 0:
                 messagebox.showwarning(title="Error", message="No match found.")
             else:
-                tree = ttk.Treeview(nextDeleteFrame, columns=("ID", "Name", "Date of Birth", "Joining Date", "Salary"))
+                tree = ttk.Treeview(nextDeleteFrame, columns=("ID", "Name", "Date of Birth", "Joining Date", "Salary", "Department"))
                 tree.heading("#0", text="", anchor="center") 
                 tree.heading("ID", text="ID", anchor="center")
                 tree.heading("Name", text="Name", anchor="center")
                 tree.heading("Date of Birth", text="Date of Birth", anchor="center")
                 tree.heading("Joining Date", text="Joining Date", anchor="center")
                 tree.heading("Salary", text="Salary", anchor="center")
+                tree.heading("Department", text="Department", anchor="center")
+
                 tree.column("#0", width=0,anchor="center")
                 tree.column("ID", width=50, anchor="center")
                 tree.column("Name", width=200, anchor="center")
                 tree.column("Date of Birth", width=100, anchor="center")
                 tree.column("Joining Date", width=100, anchor="center")
                 tree.column("Salary", width=100, anchor="center")
+                tree.column("Department", width=100, anchor="center")
                 for row in employees:
                     tree.insert("", "end", values=row)
                 tree.grid(row= 4, column=0, padx=20, pady=10)
@@ -240,8 +251,9 @@ def updateScreen():
                         birthDate = birthDateEntry.get()
                         joiningDate = joiningDateEntry.get()
                         salary = salaryEntry.get()
-                        if firstname and lastname and birthDate and salary and joiningDate:
-                            sqlClient.updateEmployee(method=usingOptValue, value=itemValue, newValue=(itemValue[0], f'{firstname.capitalize()} {lastname.capitalize()}', birthDate, joiningDate, salary))
+                        department =  departmentEntry.get()
+                        if firstname and lastname and birthDate and salary and joiningDate and department:
+                            sqlClient.updateEmployee(method=usingOptValue, value=itemValue, newValue=(itemValue[0], f'{firstname.capitalize()} {lastname.capitalize()}', birthDate, joiningDate, salary, department))
                             messagebox.showwarning(title="Success", message="Updated Employee Details")
                             updateScreen()
                         else: 
@@ -263,6 +275,9 @@ def updateScreen():
                     joiningDateLabel.grid(row=2, column=0)
                     salaryLabel = Label(employeeDetailsFrame, text="Salary")
                     salaryLabel.grid(row=2, column=1)
+                    departmentLabel = Label(employeeDetailsFrame, text="Department")
+                    departmentLabel.grid(row=2, column=2)
+
 
                     firstNameEntry = Entry(employeeDetailsFrame)
                     firstNameEntry.insert(0,itemValue[1].split(" ")[0])
@@ -274,11 +289,14 @@ def updateScreen():
                     joiningDateEntry.insert(0,itemValue[3])
                     salaryEntry = Entry(employeeDetailsFrame)
                     salaryEntry.insert(0,itemValue[4])
+                    departmentEntry = Entry(employeeDetailsFrame)
+                    departmentEntry.insert(0,itemValue[5])
                     firstNameEntry.grid(row=1, column=0)
                     lastNameEntry.grid(row=1, column=1)
                     birthDateEntry.grid(row=1, column=2)
                     joiningDateEntry.grid(row=3, column=0)
                     salaryEntry.grid(row=3, column=1)
+                    departmentEntry.grid(row=3, column=2)
 
                     for widget in employeeDetailsFrame.winfo_children():
                         widget.grid_configure(padx=10, pady=5)
@@ -292,19 +310,23 @@ def updateScreen():
             if len(employees) == 0:
                 messagebox.showwarning(title="Error", message="No match found.")
             else:
-                tree = ttk.Treeview(nextDeleteFrame, columns=("ID", "Name", "Date of Birth", "Joining Date", "Salary"))
+                tree = ttk.Treeview(nextDeleteFrame, columns=("ID", "Name", "Date of Birth", "Joining Date", "Salary", "Department"))
                 tree.heading("#0", text="", anchor="center") 
                 tree.heading("ID", text="ID", anchor="center")
                 tree.heading("Name", text="Name", anchor="center")
                 tree.heading("Date of Birth", text="Date of Birth", anchor="center")
                 tree.heading("Joining Date", text="Joining Date", anchor="center")
                 tree.heading("Salary", text="Salary", anchor="center")
+                tree.heading("Department", text="Department", anchor="center")
+
                 tree.column("#0", width=0,anchor="center")
                 tree.column("ID", width=50, anchor="center")
                 tree.column("Name", width=200, anchor="center")
                 tree.column("Date of Birth", width=100, anchor="center")
                 tree.column("Joining Date", width=100, anchor="center")
                 tree.column("Salary", width=100, anchor="center")
+                tree.column("Department", width=100, anchor="center")
+
                 for row in employees:
                     tree.insert("", "end", values=row)
                 tree.grid(row= 4, column=0, padx=20, pady=10)
@@ -319,7 +341,7 @@ def updateScreen():
             frame = Frame(window)
             frame.pack()
 
-            nextDeleteFrame =LabelFrame(frame, text="Delete An Employee")
+            nextDeleteFrame =LabelFrame(frame, text="Update An Employee")
             nextDeleteFrame.grid(row= 0, column=0, padx=20, pady=10)
 
             valueLable = Label(nextDeleteFrame, text=f"Enter {usingOptValue}")
@@ -350,19 +372,22 @@ def allEmployeeScreen():
 
         allEmployeeFrame =LabelFrame(frame, text="Employees")
         allEmployeeFrame.grid(row= 0, column=0, padx=20, pady=10)
-        tree = ttk.Treeview(allEmployeeFrame, columns=("ID", "Name", "Date of Birth", "Joining Date", "Salary"))
+        tree = ttk.Treeview(allEmployeeFrame, columns=("ID", "Name", "Date of Birth", "Joining Date", "Salary", "Department"))
         tree.heading("#0", text="", anchor="center") 
         tree.heading("ID", text="ID", anchor="center")
         tree.heading("Name", text="Name", anchor="center")
         tree.heading("Date of Birth", text="Date of Birth", anchor="center")
         tree.heading("Joining Date", text="Joining Date", anchor="center")
         tree.heading("Salary", text="Salary", anchor="center")
+        tree.heading("Department", text="department", anchor="center")
         tree.column("#0", width=0,anchor="center")
         tree.column("ID", width=50, anchor="center")
         tree.column("Name", width=200, anchor="center")
         tree.column("Date of Birth", width=100, anchor="center")
         tree.column("Joining Date", width=100, anchor="center")
         tree.column("Salary", width=100, anchor="center")
+        tree.column("Department", width=100, anchor="center")
+
         for row in employees:
             tree.insert("", "end", values=row)
         tree.grid(row= 4, column=0, padx=20, pady=10)
