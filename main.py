@@ -379,7 +379,7 @@ def allEmployeeScreen():
         tree.heading("Date of Birth", text="Date of Birth", anchor="center")
         tree.heading("Joining Date", text="Joining Date", anchor="center")
         tree.heading("Salary", text="Salary", anchor="center")
-        tree.heading("Department", text="department", anchor="center")
+        tree.heading("Department", text="Department", anchor="center")
         tree.column("#0", width=0,anchor="center")
         tree.column("ID", width=50, anchor="center")
         tree.column("Name", width=200, anchor="center")

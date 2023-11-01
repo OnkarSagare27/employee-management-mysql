@@ -1,6 +1,6 @@
 Start server - mysql -u root -p
 Create database - create database employees;
 Change database - use employees;
-Create table - create table employeeDetails (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL, dateOfBirth DATE, joiningDate DATE, salary DECIMAL(10, 2));
+Create table - create table employeeDetails (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255) NOT NULL, dateOfBirth DATE, joiningDate DATE, salary DECIMAL(10, 2), department VARCHAR(255));
 Describe table - describe employeedetails;
 Insert into table - INSERT INTO employeedetails (name, dateOfBirth, joiningDate, salary) VALUES ("Example Name", "2004-02-27", "2023-11-01", 5000.00);
