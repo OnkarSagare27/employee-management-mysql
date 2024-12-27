@@ -1,5 +1,5 @@
 {
-    "pass": "Your Database Password Goes Here",
+    "pass": "password",
     "user": "root",
     "host": "localhost",
     "database": "employees"

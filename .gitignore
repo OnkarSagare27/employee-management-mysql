@@ -1,1 +1,10 @@
-config 1.json
+ems_venv/
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+.env
+.env.*
+.venv/
